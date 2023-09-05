@@ -66,10 +66,12 @@ impl App {
     pub fn run(&self) -> Result<(), X2YError> {
         let input = self.matches.get_one::<String>("INPUT").unwrap();
         let Ok(metadata) = fs::metadata(input) else {
-                // Need a valid input.
-                // If we can't determine the file type we don't know how to process it.
-                return Err(X2YError::InvalidInput(
-                    format!("failed to get input metadata: {:?}", &input)))
+            // Need a valid input.
+            // If we can't determine the file type we don't know how to process it.
+            return Err(X2YError::InvalidInput(format!(
+                "failed to get input metadata: {:?}", 
+                &input
+            )));
         };
         let file_type = metadata.file_type();
 
