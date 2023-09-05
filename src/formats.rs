@@ -14,7 +14,7 @@ impl TryFrom<&Path> for Format {
     fn try_from(s: &Path) -> Result<Self, Self::Error> {
         if let Some(extension) = s.extension() {
             if let Some(format) = extension.to_str() {
-                match format {
+                match format.trim() {
                     "yaml" => Ok(Self::Yaml),
                     "yml" => Ok(Self::Yaml),
                     "json" => Ok(Self::Json),
@@ -30,7 +30,7 @@ impl TryFrom<&Path> for Format {
                 )))
             }
         } else if let Some(s) = s.to_str() {
-            match s {
+            match s.trim() {
                 "yaml" => Ok(Self::Yaml),
                 "yml" => Ok(Self::Yaml),
                 "json" => Ok(Self::Json),

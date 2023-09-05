@@ -3,26 +3,24 @@ use crate::formats::Format;
 use serde_json::Value as JsonValue;
 use serde_yaml::Value as YamlValue;
 
-fn transcode(contents: &str, input_format: Format, output_format: Format) {
-    match (input_format, output_format) {
-        (Format::Yaml, Format::Json) => {
-            yaml_to_json(contents);
-        }
-        (Format::Json, Format::Yaml) => {
-            json_to_yaml(contents);
-        }
+pub fn transcode(contents: &str, input_format: Format, output_format: Format) -> String {
+    let result: String = match (input_format, output_format) {
+        (Format::Yaml, Format::Json) => yaml_to_json(contents),
+        (Format::Json, Format::Yaml) => json_to_yaml(contents),
         _ => panic!("Won't go here"),
     };
+    result
 }
 
 fn yaml_to_json(contents: &str) -> String {
     let json_value: JsonValue = serde_yaml::from_str(contents).unwrap();
-    let json_string = serde_json::to_string(&json_value).unwrap();
+    let json_string = serde_json::to_string_pretty(&json_value).unwrap();
 
     json_string.to_string()
 }
 
 fn json_to_yaml(contents: &str) -> String {
+    log::debug!("File contents: {}", contents);
     let yaml_value: YamlValue = serde_json::from_str(contents).unwrap();
     let yaml_string = serde_yaml::to_string(&yaml_value).unwrap();
 
@@ -30,56 +28,9 @@ fn json_to_yaml(contents: &str) -> String {
 }
 
 #[cfg(test)]
-mod test_helpers {
-    use serde::{Deserialize, Serialize};
-
-    #[derive(Debug, Deserialize, Serialize)]
-    pub struct Basic {
-        name: String,
-    }
-    impl Basic {
-        pub fn new() -> Self {
-            Self {
-                name: "John Doe".to_string(),
-            }
-        }
-    }
-
-    #[derive(Debug, Deserialize, Serialize)]
-    struct Details {
-        age: u8,
-        height: u8,
-        likes: [String; 3],
-    }
-
-    #[derive(Debug, Deserialize, Serialize)]
-    pub struct Intermediate {
-        name: String,
-        details: Details,
-    }
-
-    impl Intermediate {
-        pub fn new() -> Self {
-            Self {
-                name: "John Doe".to_string(),
-                details: Details {
-                    age: 25,
-                    height: 186,
-                    likes: [
-                        "cheese".to_string(),
-                        "the color blue".to_string(),
-                        "rock music".to_string(),
-                    ],
-                },
-            }
-        }
-    }
-}
-
-#[cfg(test)]
 mod tests {
     use super::*;
-    use test_helpers::*;
+    use crate::test_helpers::*;
 
     #[test]
     fn json_to_yaml_basic() {
