@@ -13,10 +13,8 @@ Converting all files that match the input format in a directory
 ```bash
 > x2y -x yaml -y json .
 ```
-We transcode any files that are in the current working directory that have a toml
-format into a yaml format.
-
-## More examples
+Any files that are in the current working directory that have a yaml format are 
+converted to json format.
 
 Converting a single file
 
@@ -24,7 +22,7 @@ Converting a single file
 > x2y -y yaml config.json
 ```
 When a single file is specified, the option for the input format is no longer 
-necessary as it can be taken from the input file.
+necessary as it is taken from the input file.
 
 ## Supported file formats 
 
@@ -37,7 +35,7 @@ necessary as it can be taken from the input file.
 ### From source
 
 ```bash
-cargo install --locked x2y
+> cargo install --locked x2y
 ```
 
 ### Package Managers
