@@ -4,12 +4,14 @@ Transcode data-serialization files from x to y.
 
 ## How it works
 
-Say you have some file(s) in a particular data-serialization language,
-we can call this x, and you want them in a different language, we can call this
-y: you see where we're going here? Well by running this:
+You have some file(s) in a particular data-serialization language and you want 
+them in a different language. 
+
+
+Converting all files that match the input format in a directory
 
 ```bash
-> x2y -x toml -y yaml .
+> x2y -x yaml -y json .
 ```
 We transcode any files that are in the current working directory that have a toml
 format into a yaml format.
