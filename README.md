@@ -24,11 +24,13 @@ Converting a single file
 When a single file is specified, the option for the input format is no longer 
 necessary as it is taken from the input file.
 
+
 ## Supported file formats 
 
 * Yaml 
 * Json
 * Toml 
+
 
 ## Installation
 

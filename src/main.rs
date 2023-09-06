@@ -113,7 +113,13 @@ pub fn process_directory(
     output_format: &Path,
 ) -> Result<(), X2YError> {
     let mut files: Vec<DirEntry> = Vec::new();
-    walk_dir(directory, &mut files);
+    walk_dir(&directory, &mut files);
+    if files.is_empty() {
+        return Err(X2YError::InvalidInput(format!(
+            "Directory: {:?} contains no files with this: {:?} format",
+            &directory, input_format
+        )));
+    }
     for f in files {
         let input_format = input_format.try_into().unwrap();
         let output_format = output_format.try_into().unwrap();

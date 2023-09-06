@@ -1,13 +1,13 @@
 use std::fs;
 use std::fs::DirEntry;
-use std::path::PathBuf;
+use std::path::Path;
 
 use crate::formats::Format;
 
 // We look through all of the directories starting from the input directory,
 // adding only files ending with .yaml or .yml to a vector.
 
-pub fn walk_dir(directory: PathBuf, files: &mut Vec<DirEntry>) {
+pub fn walk_dir(directory: &Path, files: &mut Vec<DirEntry>) {
     if let Ok(entries) = fs::read_dir(directory) {
         for entry in entries.flatten() {
             if let Ok(metadata) = entry.metadata() {
@@ -21,7 +21,7 @@ pub fn walk_dir(directory: PathBuf, files: &mut Vec<DirEntry>) {
                         continue;
                     }
                 } else if file_type.is_dir() {
-                    walk_dir(entry.path(), files);
+                    walk_dir(&entry.path(), files);
                 }
             }
         }
@@ -32,6 +32,7 @@ pub fn walk_dir(directory: PathBuf, files: &mut Vec<DirEntry>) {
 mod tests {
     use super::*;
     use std::fs::File;
+    use std::path::PathBuf;
     use tempfile;
 
     fn create_file_names(count: usize) -> Vec<String> {
@@ -62,7 +63,7 @@ mod tests {
         }
         let mut target_files = Vec::with_capacity(file_names.len());
 
-        walk_dir(outer_path.into(), &mut target_files);
+        walk_dir(&Path::new(outer_path), &mut target_files);
 
         assert_eq!(target_files.len(), 10);
     }
