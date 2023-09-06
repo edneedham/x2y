@@ -7,12 +7,11 @@ use x2y::formats::Format;
 use x2y::transcoder;
 use x2y::traversal::walk_dir;
 
-fn main() {
+fn main() -> Result<(), X2YError> {
     env_logger::init();
     let app = App::matches();
-    let Ok(()) = app.run() else {
-        panic!("Unable to run app");
-    };
+    app.run()?;
+    Ok(())
 }
 
 #[derive(Debug)]
