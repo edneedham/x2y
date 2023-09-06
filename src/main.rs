@@ -68,7 +68,7 @@ impl App {
             // Need a valid input.
             // If we can't determine the file type we don't know how to process it.
             return Err(X2YError::InvalidInput(format!(
-                "failed to get input metadata: {:?}", 
+                "failed to get input metadata: {:?}",
                 &input
             )));
         };
