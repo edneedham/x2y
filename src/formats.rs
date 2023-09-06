@@ -87,4 +87,11 @@ mod tests {
         let format = Format::try_from(path).unwrap();
         assert_eq!(Format::Yaml, format);
     }
+    #[test]
+    fn a_path_containing_format_names_is_ok() {
+        let input = PathBuf::from("json_yaml.yaml");
+        let path = input.as_path();
+        let format = Format::try_from(path).unwrap();
+        assert_eq!(Format::Yaml, format);
+    }
 }

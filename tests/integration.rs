@@ -20,14 +20,16 @@ fn a_yaml_file_is_converted_to_json() {
     Lazy::force(&LOGGER);
     let test_example = Basic::new();
     let yaml_string = serde_yaml::to_string(&test_example).unwrap();
-    let file_name = "basic_file.yaml";
+    let file_name = "yaml_file";
+    let file_path = format!("{}.yaml", file_name);
 
-    let mut file = File::create(file_name).unwrap();
+    let mut file = File::create(&file_path).unwrap();
     file.write_all(yaml_string.as_bytes()).unwrap();
 
     let mut cmd = Command::cargo_bin("x2y").unwrap();
-    let assert = cmd.arg("-y json").arg(file_name).assert();
+    let assert = cmd.arg("-y json").arg(&file_path).assert();
 
+    fs::remove_file(format!("{}.json", file_name)).unwrap();
     assert.success();
 }
 
@@ -58,13 +60,15 @@ fn a_json_file_is_converted_to_yaml() {
     Lazy::force(&LOGGER);
     let test_example = Basic::new();
     let json_string = serde_json::to_string_pretty(&test_example).unwrap();
-    let file_name = "basic_file.json";
+    let file_name = "json_file";
+    let file_path = format!("{}.json", file_name);
 
-    let mut file = File::create(file_name).unwrap();
+    let mut file = File::create(&file_path).unwrap();
     file.write_all(json_string.as_bytes()).unwrap();
 
     let mut cmd = Command::cargo_bin("x2y").unwrap();
-    let assert = cmd.arg("-y yaml").arg(file_name).assert();
+    let assert = cmd.arg("-y yaml").arg(&file_path).assert();
+    fs::remove_file(format!("{}.yaml", file_name)).unwrap();
 
     assert.success();
 }
@@ -103,6 +107,8 @@ fn supplying_the_same_format_for_input_and_output_returns_an_error() {
 
     let mut cmd = Command::cargo_bin("x2y").unwrap();
     let assert = cmd.arg("-y json").arg(file_name).assert();
+
+    fs::remove_file(file_name).unwrap();
 
     assert.failure();
 }
