@@ -53,7 +53,7 @@ impl App {
     }
     pub fn run(&self) -> Result<(), X2YError> {
         let input = self.matches.get_one::<String>("INPUT").unwrap();
-        let Ok(metadata) = fs::metadata(input) else {
+        let Ok(metadata) = fs::symlink_metadata(input) else {
             // Need a valid input.
             // If we can't determine the file type we don't know how to process it.
             return Err(X2YError::InvalidInput(format!(
@@ -86,7 +86,7 @@ impl App {
                 output_format
             );
             process_file(input.into(), output_format.unwrap().as_ref())?;
-        } else {
+        } else if file_type.is_symlink() {
             return Err(X2YError::InvalidInput(format!(
                 "unable to perform operations on file type: {:?}",
                 file_type

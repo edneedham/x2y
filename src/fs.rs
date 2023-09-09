@@ -22,7 +22,7 @@ pub fn process_directory(
     for f in files {
         let input_format = input_format.try_into().unwrap();
         let output_format = output_format.try_into().unwrap();
-        log::debug!("File formats: {}\t{}", input_format, output_format);
+        log::debug!("File formats: {}\n{}", input_format, output_format);
         let file_path = f.path();
         let contents = fs::read_to_string(&file_path).unwrap();
         let output_contents = transcoder::transcode(&contents, input_format, output_format);
@@ -59,7 +59,7 @@ pub fn process_file(file: PathBuf, output_format: &Path) -> Result<(), X2YError>
     let input_format: Format = file.as_path().try_into().unwrap();
     let output_format = output_format.try_into().unwrap();
     log::debug!(
-        "File formats:\n Input Format: {} Output Format: {}",
+        "File formats:\n Input Format: {}\n Output Format: {}",
         input_format,
         output_format
     );

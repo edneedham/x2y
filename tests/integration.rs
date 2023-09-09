@@ -128,3 +128,31 @@ fn supplying_an_empty_directory_returns_an_error() {
 
     assert.failure();
 }
+
+#[cfg(target_family = "unix")]
+#[test]
+fn supplying_a_symlink_on_unix_returns_an_error() {
+    Lazy::force(&LOGGER);
+    let test_example = Basic::new();
+    let json_string = serde_json::to_string_pretty(&test_example).unwrap();
+    let file_path = "json_link_file.json";
+
+    let mut file = File::create(&file_path).unwrap();
+    file.write_all(json_string.as_bytes()).unwrap();
+
+    std::os::unix::fs::symlink(&file_path, "link.json").unwrap();
+
+    let mut cmd = Command::cargo_bin("x2y").unwrap();
+    let assert = cmd.arg("-y yaml").arg("link.json").assert();
+
+    fs::remove_file(file_path).unwrap();
+    fs::remove_file("link.json").unwrap();
+    assert.failure();
+}
+
+//#[cfg(target_family = "windows")]
+//#[test]
+//fn supplying_a_symlink_on_windows_returns_an_error() {
+//    Lazy::force(&LOGGER);
+//
+//}
