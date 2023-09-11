@@ -1,6 +1,5 @@
 use assert_cmd::Command;
 use once_cell::sync::Lazy;
-use serde::Serialize;
 use serde_json;
 use serde_yaml;
 use std::fs;
@@ -9,7 +8,7 @@ use std::io::Write;
 use tempfile;
 
 extern crate x2y;
-use x2y::test_helpers::{Basic, Intermediate};
+use x2y::test_helpers::Basic;
 
 static LOGGER: Lazy<()> = Lazy::new(|| {
     let _ = env_logger::builder().is_test(true).try_init();
@@ -154,6 +153,7 @@ fn supplying_a_symlink_on_unix_returns_an_error() {
 #[test]
 fn supplying_a_symlink_on_windows_returns_an_error() {
     Lazy::force(&LOGGER);
+    let test_example = Basic::new();
     let json_string = serde_json::to_string_pretty(&test_example).unwrap();
     let file_path = "json_link_file.json";
 
