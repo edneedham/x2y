@@ -6,6 +6,7 @@ use crate::error::X2YError;
 pub enum Format {
     Yaml,
     Json,
+    Toml,
 }
 
 impl TryFrom<&Path> for Format {
@@ -18,6 +19,7 @@ impl TryFrom<&Path> for Format {
                     "yaml" => Ok(Self::Yaml),
                     "yml" => Ok(Self::Yaml),
                     "json" => Ok(Self::Json),
+                    "toml" => Ok(Self::Toml),
                     other => Err(X2YError::InvalidInput(format!(
                         "{} is not a supported file format.",
                         other
@@ -34,6 +36,7 @@ impl TryFrom<&Path> for Format {
                 "yaml" => Ok(Self::Yaml),
                 "yml" => Ok(Self::Yaml),
                 "json" => Ok(Self::Json),
+                "toml" => Ok(Self::Toml),
                 other => Err(X2YError::InvalidInput(format!(
                     "{} is not a supported file format.",
                     other
@@ -53,6 +56,7 @@ impl fmt::Display for Format {
         match self {
             Format::Yaml => write!(f, "yaml"),
             Format::Json => write!(f, "json"),
+            Format::Toml => write!(f, "toml"),
         }
     }
 }

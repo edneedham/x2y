@@ -6,6 +6,7 @@ use std::fs;
 use std::fs::File;
 use std::io::Write;
 use tempfile;
+use toml;
 
 extern crate x2y;
 use x2y::test_helpers::Basic;
@@ -24,6 +25,24 @@ fn a_yaml_file_is_converted_to_json() {
 
     let mut file = File::create(&file_path).unwrap();
     file.write_all(yaml_string.as_bytes()).unwrap();
+
+    let mut cmd = Command::cargo_bin("x2y").unwrap();
+    let assert = cmd.arg("-y json").arg(&file_path).assert();
+
+    fs::remove_file(format!("{}.json", file_name)).unwrap();
+    assert.success();
+}
+
+#[test]
+fn a_toml_file_is_converted_to_json() {
+    Lazy::force(&LOGGER);
+    let test_example = Basic::new();
+    let toml_string = toml::to_string_pretty(&test_example).unwrap();
+    let file_name = "toml_file";
+    let file_path = format!("{}.toml", file_name);
+
+    let mut file = File::create(&file_path).unwrap();
+    file.write_all(toml_string.as_bytes()).unwrap();
 
     let mut cmd = Command::cargo_bin("x2y").unwrap();
     let assert = cmd.arg("-y json").arg(&file_path).assert();
