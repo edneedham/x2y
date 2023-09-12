@@ -34,7 +34,7 @@ pub fn process_directory(
         // As of right now, a non-unicode file name stops the program.
         let new_path = new_path(&file_path, input_format)?;
         let mut file = create_file(new_path, output_format)?;
-        file.write_all(output_contents.as_bytes())?;
+        file.write_all(output_contents?.as_bytes())?;
     }
     Ok(())
 }
@@ -73,7 +73,7 @@ pub fn process_file(file: PathBuf, output_format: &Path) -> Result<(), X2YError>
     // As of right now, a non-unicode file name stops the program.
     let new_path = new_path(&file, input_format)?;
     let mut file = create_file(new_path, output_format)?;
-    file.write_all(output_contents.as_bytes())?;
+    file.write_all(output_contents?.as_bytes())?;
     Ok(())
 }
 
