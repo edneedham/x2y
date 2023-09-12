@@ -23,42 +23,74 @@ pub fn transcode(
 }
 
 fn yaml_to_json(contents: &str) -> Result<String, X2YError> {
-    let json_value: JsonValue = serde_yaml::from_str(contents).unwrap();
-    let json_string = serde_json::to_string_pretty(&json_value).unwrap();
-
+    let json_value: JsonValue = match serde_yaml::from_str(contents) {
+        Ok(v) => v,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
+    let json_string = match serde_json::to_string_pretty(&json_value) {
+        Ok(s) => s,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
     Ok(json_string.to_string())
 }
 
 fn yaml_to_toml(contents: &str) -> Result<String, X2YError> {
-    let toml_value: TomlValue = serde_yaml::from_str(contents).unwrap();
-    let toml_string = toml::to_string_pretty(&toml_value).unwrap();
+    let toml_value: TomlValue = match serde_yaml::from_str(contents) {
+        Ok(v) => v,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
+    let toml_string = match toml::to_string_pretty(&toml_value) {
+        Ok(s) => s,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
     Ok(toml_string.to_string())
 }
 
 fn json_to_toml(contents: &str) -> Result<String, X2YError> {
-    let toml_value: TomlValue = serde_json::from_str(contents).unwrap();
-    let toml_string = toml::to_string_pretty(&toml_value).unwrap();
+    let toml_value: TomlValue = match serde_json::from_str(contents) {
+        Ok(v) => v,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
+    let toml_string = match toml::to_string_pretty(&toml_value) {
+        Ok(s) => s,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
     Ok(toml_string.to_string())
 }
 
 fn json_to_yaml(contents: &str) -> Result<String, X2YError> {
-    let yaml_value: YamlValue = serde_json::from_str(contents).unwrap();
-    let yaml_string = serde_yaml::to_string(&yaml_value).unwrap();
-
+    let yaml_value: YamlValue = match serde_json::from_str(contents) {
+        Ok(v) => v,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
+    let yaml_string = match serde_yaml::to_string(&yaml_value) {
+        Ok(s) => s,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
     Ok(yaml_string.to_string())
 }
 
 fn toml_to_yaml(contents: &str) -> Result<String, X2YError> {
-    let yaml_value: YamlValue = toml::from_str(contents).unwrap();
-    let yaml_string = serde_yaml::to_string(&yaml_value).unwrap();
-
+    let yaml_value: YamlValue = match toml::from_str(contents) {
+        Ok(v) => v,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
+    let yaml_string = match serde_yaml::to_string(&yaml_value) {
+        Ok(s) => s,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
     Ok(yaml_string.to_string())
 }
 
 fn toml_to_json(contents: &str) -> Result<String, X2YError> {
-    let json_value: YamlValue = toml::from_str(contents).unwrap();
-    let json_string = serde_json::to_string_pretty(&json_value).unwrap();
-
+    let json_value: YamlValue = match toml::from_str(contents) {
+        Ok(v) => v,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
+    let json_string = match serde_json::to_string_pretty(&json_value) {
+        Ok(s) => s,
+        Err(e) => return Err(X2YError::Transcode(e.into())),
+    };
     Ok(json_string.to_string())
 }
 
