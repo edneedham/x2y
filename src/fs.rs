@@ -20,12 +20,12 @@ pub fn process_directory(
         )));
     }
     for f in files {
-        let input_format = input_format.try_into().unwrap();
-        let output_format = output_format.try_into().unwrap();
+        let input_format = input_format.try_into()?;
+        let output_format = output_format.try_into()?;
         log::debug!("File formats: {}\n{}", input_format, output_format);
         let file_path = f.path();
-        let contents = fs::read_to_string(&file_path).unwrap();
-        let output_contents = transcoder::transcode(&contents, input_format, output_format);
+        let contents = fs::read_to_string(&file_path)?;
+        let output_contents = transcoder::transcode(&contents, input_format, output_format)?;
 
         remove_file(&file_path)?;
 
@@ -34,7 +34,7 @@ pub fn process_directory(
         // As of right now, a non-unicode file name stops the program.
         let new_path = new_path(&file_path, input_format)?;
         let mut file = create_file(new_path, output_format)?;
-        file.write_all(output_contents?.as_bytes())?;
+        file.write_all(output_contents.as_bytes())?;
     }
     Ok(())
 }
@@ -56,15 +56,15 @@ fn new_path(file_path: &Path, input_format: Format) -> Result<&str, X2YError> {
 }
 
 pub fn process_file(file: PathBuf, output_format: &Path) -> Result<(), X2YError> {
-    let input_format: Format = file.as_path().try_into().unwrap();
-    let output_format = output_format.try_into().unwrap();
+    let input_format: Format = file.as_path().try_into()?;
+    let output_format = output_format.try_into()?;
     log::debug!(
         "File formats:\n Input Format: {}\n Output Format: {}",
         input_format,
         output_format
     );
     let contents = fs::read_to_string(&file).unwrap();
-    let output_contents = transcoder::transcode(&contents, input_format, output_format);
+    let output_contents = transcoder::transcode(&contents, input_format, output_format)?;
 
     remove_file(&file)?;
 
@@ -73,7 +73,7 @@ pub fn process_file(file: PathBuf, output_format: &Path) -> Result<(), X2YError>
     // As of right now, a non-unicode file name stops the program.
     let new_path = new_path(&file, input_format)?;
     let mut file = create_file(new_path, output_format)?;
-    file.write_all(output_contents?.as_bytes())?;
+    file.write_all(output_contents.as_bytes())?;
     Ok(())
 }
 

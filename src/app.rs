@@ -52,6 +52,7 @@ impl App {
         }
     }
     pub fn run(&self) -> Result<(), X2YError> {
+        log::info!("Running X2Y...");
         let input = self.matches.get_one::<String>("INPUT").unwrap();
         let Ok(metadata) = fs::symlink_metadata(input) else {
             // Need a valid input.
@@ -61,30 +62,21 @@ impl App {
                 &input
             )));
         };
+        log::info!("Checking input file type");
         let file_type = metadata.file_type();
 
         let input_format = self.matches.get_one::<String>("input-format");
         let output_format = self.matches.get_one::<String>("output-format");
         // What file formats are we going to look for
         if file_type.is_dir() && input_format.is_some() {
-            log::debug!(
-                "Processing directory: {:?}\t{:?}\t{:?}",
-                input,
-                input_format,
-                output_format
-            );
+            log::info!("Processing input as directory");
             process_directory(
                 input.into(),
                 input_format.unwrap().as_ref(),
                 output_format.unwrap().as_ref(),
             )?;
         } else if file_type.is_file() {
-            log::debug!(
-                "Processing file: {:?}\t{:?}\t{:?}",
-                input,
-                input_format,
-                output_format
-            );
+            log::info!("Processing input as file");
             process_file(input.into(), output_format.unwrap().as_ref())?;
         } else if file_type.is_symlink() {
             return Err(X2YError::InvalidInput(format!(
