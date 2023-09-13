@@ -34,7 +34,7 @@ necessary as it is taken from the input file.
 
 ## Installation
 
-### From source if you have Rust and cargo installed
+### From source if you have rust and cargo installed
 
 ```bash
 > cargo install --locked x2y
