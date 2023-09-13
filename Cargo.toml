@@ -5,7 +5,8 @@ authors = ["Ed Needham <ed@edneedham.dev>"]
 homepage = "https://github.com/edneedham/x2y"
 repository = "https://github.com/edneedham/x2y"
 license = "MIT"
-keywords = ["yaml", "json", "serialisation"]
+keywords = ["yaml", "json", "toml", "serialisation"]
+categories = ["command-line-utilities"]
 readme = "README.md"
 edition = "2021"
 
