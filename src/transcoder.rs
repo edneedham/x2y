@@ -17,7 +17,10 @@ pub fn transcode(
         (Format::Json, Format::Yaml) => json_to_yaml(contents),
         (Format::Toml, Format::Json) => toml_to_json(contents),
         (Format::Toml, Format::Yaml) => toml_to_yaml(contents),
-        _ => panic!("Unreachable"),
+        _ => Err(X2YError::InvalidInput(format!(
+            "Incompatible input and output formats: {} -> {}",
+            input_format, output_format
+        ))),
     };
     result
 }
