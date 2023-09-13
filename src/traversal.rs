@@ -1,3 +1,4 @@
+use log;
 use std::fs;
 use std::fs::DirEntry;
 use std::path::Path;
@@ -8,6 +9,7 @@ use crate::formats::Format;
 // adding only files ending with .yaml or .yml to a vector.
 
 pub fn walk_dir(directory: &Path, files: &mut Vec<DirEntry>) {
+    log::info!("Walking directory: {:?}", &directory);
     if let Ok(entries) = fs::read_dir(directory) {
         for entry in entries.flatten() {
             if let Ok(metadata) = entry.metadata() {
@@ -16,6 +18,7 @@ pub fn walk_dir(directory: &Path, files: &mut Vec<DirEntry>) {
                     let entry_path = entry.path();
                     let as_path = entry_path.as_path();
                     if Format::try_from(as_path).is_ok() {
+                        log::info!("Adding file: {:?} to file list", &as_path);
                         files.push(entry);
                     } else {
                         continue;
