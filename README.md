@@ -39,29 +39,3 @@ necessary as it is taken from the input file.
 ```bash
 > cargo install --locked x2y
 ```
-
-### Package Managers
-
-On Ubuntu
-
-```bash
-> sudo apt install x2y
-```
-
-On Mac
-
-```bash
-> brew install x2y
-```
-
-On Windows 
-
-```bash
-> choco install x2y
-```
-
-
-
-
-
-
