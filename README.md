@@ -1,3 +1,6 @@
+![ci]
+(https://github.com/edneedham/x2y/.github/workflows/ci.yml/badge.svg)
+
 # x2y
 
 Transcode data-serialization files from x to y.
