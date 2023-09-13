@@ -3,4 +3,5 @@
 *.yaml
 *.toml
 CONTRIBUTING.md
+/pkg
 
