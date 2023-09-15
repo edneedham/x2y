@@ -11,7 +11,7 @@ readme = "README.md"
 edition = "2021"
 
 description = """
-A data-serialisation file transcoder written in Rust.
+A data-serialization file transcoder written in Rust.
 """
 
 [dependencies]

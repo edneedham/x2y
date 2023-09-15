@@ -8,7 +8,7 @@ You have some file(s) in a particular data-serialization language and you want
 them in a different language. 
 
 
-Converting all files that match the input format in a directory
+#### Converting all files that match the input format in a directory
 
 ```bash
 > x2y -x yaml -y json .
@@ -16,7 +16,7 @@ Converting all files that match the input format in a directory
 Any files that are in the current working directory that have a yaml format are 
 converted to json format.
 
-Converting a single file
+#### Converting a single file
 
 ```bash
 > x2y -y yaml config.json
@@ -34,7 +34,7 @@ necessary as it is taken from the input file.
 
 ## Installation
 
-### From source if you have rust and cargo installed
+#### From source if you have rust and cargo installed
 
 ```bash
 > cargo install --locked x2y
