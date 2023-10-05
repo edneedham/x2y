@@ -68,7 +68,7 @@ jobs:
       BIN: x2y
       DIR: artifacts
       GITHUB_REF: '${{ github.ref }}'
-    if: startsWith(env.GITHUB_REF, 'refs/tags/')
+    if: startsWith(jobs.build.env.GITHUB_REF, 'refs/tags/')
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
