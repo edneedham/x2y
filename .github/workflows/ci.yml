@@ -171,7 +171,7 @@ jobs:
       - name: Release MacOS tarball
         uses: softprops/actions-gh-release@v1
         with:
-          files: macos-latest/${{ env.BIN }-${{ steps.get_version.outputs.VERSION }}.tar.gz
+          files: macos-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
 
       - name: Release Windows tarball
         uses: softprops/actions-gh-release@v1
