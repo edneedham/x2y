@@ -10,6 +10,12 @@ on:
     tags:
     - 'v*'
 
+env:
+  BIN: x2y
+  DIR: artifacts
+  GITHUB_REF: '${{ github.ref }}'
+  CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
+
 jobs:
   lint_and_format:
     runs-on: ubuntu-latest
@@ -49,8 +55,6 @@ jobs:
     name: Cargo publish
     needs: [lint_and_format, test]
     runs-on: ubuntu-latest
-    env:
-      CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
 
     steps:
     - name: Checkout repository
@@ -60,15 +64,11 @@ jobs:
       uses: dtolnay/rust-toolchain@stable
     
     - name: Publish binary crate 
-      run: cargo publish --token ${ env.CRATES_TOKEN }
+      run: cargo publish --token ${{ env.CRATES_TOKEN }}
 
   build:
     needs: [lint_and_format, test]
-    env:
-      BIN: x2y
-      DIR: artifacts
-      GITHUB_REF: '${{ github.ref }}'
-    if: startsWith(jobs.build.env.GITHUB_REF, 'refs/tags/')
+    if: startsWith(env.GITHUB_REF, 'refs/tags/')
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -99,24 +99,24 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         mkdir artifacts
-        mkdir -p artifacts/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}
+        mkdir -p artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}
 
     - name: Move binaries (Linux/MacOS)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
       run: |
-        mv ./target/release/${ env.BIN } artifacts/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}/${ env.BIN }
-        mv README.md LICENSE ./artifacts/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}
+        mv ./target/release/${{ env.BIN }} artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}/${{ env.BIN }}
+        mv README.md LICENSE ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}
 
     - name: Move binaries (Windows)
       if: matrix.os == 'windows-latest'
       shell: bash
       run: |
-        cp ./target/release/${ env.BIN }.exe ./artifacts/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}/${ env.BIN }.exe
-        mv README.md LICENSE ./artifacts/${ env.BIN }-${{steps.get_version.outputs.VERSION }} 
+        cp ./target/release/${{ env.BIN }}.exe ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}/${{ env.BIN }}.exe
+        mv README.md LICENSE ./artifacts/${{ env.BIN }}-${{steps.get_version.outputs.VERSION }} 
     
     - name: Create tarball
       shell: bash
-      run: 7z a -ttar -so -an ./artifacts/${ env.BIN }-${{ steps.get_version.outputs.VERSION }} | 7z a -si ./artifacts/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}.tar.gz
+      run: 7z a -ttar -so -an ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }} | 7z a -si ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
 
     - name: Upload zip
       uses: actions/upload-artifact@v1
@@ -166,14 +166,14 @@ jobs:
       - name: Release Linux tarball
         uses: softprops/actions-gh-release@v1
         with:
-          files: ubuntu-latest/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}.tar.gz 
+          files: ubuntu-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz 
 
       - name: Release MacOS tarball
         uses: softprops/actions-gh-release@v1
         with:
-          files: macos-latest/${ env.BIN }-${{ steps.get_version.outputs.VERSION }}.tar.gz
+          files: macos-latest/${{ env.BIN }-${{ steps.get_version.outputs.VERSION }}.tar.gz
 
       - name: Release Windows tarball
         uses: softprops/actions-gh-release@v1
         with:
-          files: windows-latest/${ env.BIN}-${{ steps.get_version.outputs.VERSION }}.tar.gz
+          files: windows-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
