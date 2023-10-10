@@ -15,7 +15,7 @@ A data-serialization file transcoder written in Rust.
 """
 
 [dependencies]
-clap = "4.4.1"
+clap = { version = "4.4.1", features = ["cargo"] }
 thiserror = "1.0.47"
 serde = { version = "1.0.183", features = ["derive"] }
 serde-transcode = "1.1.1"

@@ -1,6 +1,6 @@
 use crate::error::X2YError;
 use crate::fs::*;
-use clap::{Arg, ArgMatches, Command};
+use clap::{crate_version, Arg, ArgMatches, Command};
 use std::fs;
 
 #[derive(Debug)]
@@ -11,7 +11,7 @@ pub struct App {
 impl App {
     pub fn matches() -> Self {
         let app = Command::new("x2y")
-            .version("0.1.0")
+            .version(crate_version!())
             .author("Ed Needham <ed@edneedham.dev>")
             .about("A data-serialization language transcoder.")
             .arg(
