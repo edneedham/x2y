@@ -27,8 +27,8 @@ impl TryFrom<&Path> for Format {
                 }
             } else {
                 Err(X2YError::InvalidInput(format!(
-                    "{:?} contains invalid unicode.",
-                    extension
+                    "{} contains invalid unicode.",
+                    s.display()
                 )))
             }
         } else if let Some(s) = s.to_str() {
