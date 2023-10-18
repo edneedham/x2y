@@ -1,6 +1,6 @@
 [package]
 name = "x2y"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Ed Needham <ed@edneedham.dev>"]
 homepage = "https://github.com/edneedham/x2y"
 repository = "https://github.com/edneedham/x2y"
