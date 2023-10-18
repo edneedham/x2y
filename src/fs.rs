@@ -1,5 +1,5 @@
 use crate::error::X2YError;
-use crate::formats::Format;
+use crate::format::Format;
 use crate::transcoder;
 use crate::traversal::walk_dir;
 use std::fs::{self, DirEntry, File};

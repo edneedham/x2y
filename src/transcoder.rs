@@ -1,5 +1,5 @@
 use crate::error::X2YError;
-use crate::formats::Format;
+use crate::format::Format;
 
 use serde_json::Value as JsonValue;
 use serde_yaml::Value as YamlValue;

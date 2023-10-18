@@ -3,7 +3,7 @@ use std::fs;
 use std::fs::DirEntry;
 use std::path::Path;
 
-use crate::formats::Format;
+use crate::format::Format;
 
 // We look through all of the directories starting from the input directory,
 // adding only files ending with .yaml or .yml to a vector.

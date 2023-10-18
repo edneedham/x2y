@@ -1,6 +1,6 @@
 pub mod app;
 pub mod error;
-pub mod formats;
+pub mod format;
 pub mod fs;
 pub mod test_helpers;
 pub mod transcoder;

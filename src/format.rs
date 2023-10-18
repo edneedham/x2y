@@ -2,7 +2,7 @@ use std::fmt;
 use std::path::Path;
 
 use crate::error::X2YError;
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Format {
     Yaml,
     Json,
