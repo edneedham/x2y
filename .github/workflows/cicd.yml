@@ -64,12 +64,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install Rust
-      uses: dtolnay/rust-toolchain@stable
-    
-    - name: Publish binary crate 
-      run: cargo publish --token ${{ env.CRATES_TOKEN }}
-
     - name: Get version number
       id: get_version
       shell: bash
@@ -115,6 +109,20 @@ jobs:
       with:
         name: ${{ matrix.os }}
         path: ./artifacts
+
+  publish:
+    needs: [lint_and_format, test]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+    
+    - name: Publish binary crate 
+      run: cargo publish --token ${{ env.CRATES_TOKEN }}
 
   release:
     name: GitHub Release
