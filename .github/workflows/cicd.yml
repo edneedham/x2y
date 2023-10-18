@@ -77,7 +77,7 @@ jobs:
         echo ::set-output name=version::"${GITHUB_REF:10}"
 
     - name: Install Rust
-      uses: dtolnay/rust-toolchains@stable
+      uses: dtolnay/rust-toolchain@stable
 
     - name: Install p7zip (MacOS)
       if: matrix.os == 'macos-latest'
