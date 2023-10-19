@@ -163,16 +163,16 @@ jobs:
           path: windows-latest
 
       - name: Release Linux tarball
-        uses: softprops/actions-gh-release@v1
+        uses: softprops/action-gh-release@v1
         with:
           files: ubuntu-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz 
 
       - name: Release MacOS tarball
-        uses: softprops/actions-gh-release@v1
+        uses: softprops/action-gh-release@v1
         with:
           files: macos-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
 
       - name: Release Windows tarball
-        uses: softprops/actions-gh-release@v1
+        uses: softprops/action-gh-release@v1
         with:
           files: windows-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
