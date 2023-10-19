@@ -82,7 +82,6 @@ jobs:
       run: cargo build --release
 
     - name: Create artifact directory
-      if: matrix.os == 'windows-latest'
       run: |
         mkdir artifacts
         mkdir -p artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}
