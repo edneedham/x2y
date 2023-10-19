@@ -104,7 +104,7 @@ jobs:
       run: 7z a -ttar -so -an ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }} | 7z a -si ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
 
     - name: Upload zip
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.os }}
         path: ./artifacts
@@ -162,17 +162,10 @@ jobs:
           name: windows-latest
           path: windows-latest
 
-      - name: Release Linux tarball
+      - name: Release Tarballs
         uses: softprops/action-gh-release@v1
         with:
-          files: ubuntu-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz 
-
-      - name: Release MacOS tarball
-        uses: softprops/action-gh-release@v1
-        with:
-          files: macos-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
-
-      - name: Release Windows tarball
-        uses: softprops/action-gh-release@v1
-        with:
-          files: windows-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
+          files: |
+            ubuntu-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz 
+            macos-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
+            windows-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
