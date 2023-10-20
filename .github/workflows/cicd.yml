@@ -83,31 +83,31 @@ jobs:
 
     - name: Create artifact directory
       run: |
-        mkdir artifacts
-        mkdir -p artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}
+        mkdir ${{ env.DIR }}
+        mkdir -p ${{ env.DIR }}/${{ env.BIN }}-${{ matrix.os }}-${{ steps.get_version.outputs.VERSION }}
 
     - name: Move binaries (Linux/MacOS)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
       run: |
-        mv ./target/release/${{ env.BIN }} artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}/${{ env.BIN }}
-        mv README.md LICENSE ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}
+        mv ./target/release/${{ env.BIN }} ${{ env.DIR}}/${{ env.BIN }}-${{ matrix.os }}-${{ steps.get_version.outputs.VERSION }}/${{ env.BIN }}
+        mv README.md LICENSE ./${{ env.DIR }}/${{ env.BIN }}-${{ matrix.os }}-${{ steps.get_version.outputs.VERSION }}
 
     - name: Move binaries (Windows)
       if: matrix.os == 'windows-latest'
       shell: bash
       run: |
-        cp ./target/release/${{ env.BIN }}.exe ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}/${{ env.BIN }}.exe
-        mv README.md LICENSE ./artifacts/${{ env.BIN }}-${{steps.get_version.outputs.VERSION }} 
+        cp ./target/release/${{ env.BIN }}.exe ./${{ env.DIR }}/${{ env.BIN }}-${{ matrix.os }}-${{ steps.get_version.outputs.VERSION }}/${{ env.BIN }}.exe
+        mv README.md LICENSE ./${{ env.DIR }}/${{ env.BIN }}-${{ matrix.os }}-${{steps.get_version.outputs.VERSION }} 
     
     - name: Create tarball
       shell: bash
-      run: 7z a -ttar -so -an ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }} | 7z a -si ./artifacts/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
+      run: 7z a -ttar -so -an ./${{ env.DIR }}/${{ env.BIN }}-${{ matrix.os }}-${{ steps.get_version.outputs.VERSION }} | 7z a -si ./${{ env.DIR }}/${{ env.BIN }}-${{ matrix.os }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
 
     - name: Upload zip
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.os }}
-        path: ./artifacts
+        path: ./${{ env.DIR }}
 
   publish:
     needs: [lint_and_format, test]
@@ -148,24 +148,21 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ubuntu-latest
-          path: ubuntu-latest
 
       - name: Download MacOS tarball
         uses: actions/download-artifact@v3
         with:
           name: macos-latest
-          path: macos-latest
 
       - name: Download Windows tarball
         uses: actions/download-artifact@v3
         with:
           name: windows-latest
-          path: windows-latest
 
       - name: Release Tarballs
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ubuntu-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz 
-            macos-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
-            windows-latest/${{ env.BIN }}-${{ steps.get_version.outputs.VERSION }}.tar.gz
+            ${{ env.BIN }}-ubuntu-latest-${{ steps.get_version.outputs.VERSION }}.tar.gz 
+            ${{ env.BIN }}-macos-latest-${{ steps.get_version.outputs.VERSION }}.tar.gz
+            ${{ env.BIN }}-windows-latest-${{ steps.get_version.outputs.VERSION }}.tar.gz
