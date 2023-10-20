@@ -27,13 +27,13 @@ pub fn process_directory(
         let contents = fs::read_to_string(&file_path)?;
         let output_contents = transcoder::transcode(&contents, input_format, output_format)?;
 
-        remove_file(&file_path)?;
+        fs::remove_file(&file_path)?;
 
         // The file could be invalid unicode when part of a directory.
         // Ideally we would continue processing files and log the error.
         // As of right now, a non-unicode file name stops the program.
         let new_path = new_path(&file_path, input_format)?;
-        let mut file = create_file(new_path, output_format)?;
+        let mut file = File::create(format!("{}{}", new_path, output_format))?;
         file.write_all(output_contents.as_bytes())?;
     }
     Ok(())
@@ -66,35 +66,13 @@ pub fn process_file(file: PathBuf, output_format: &Path) -> Result<(), X2YError>
     let contents = fs::read_to_string(&file).unwrap();
     let output_contents = transcoder::transcode(&contents, input_format, output_format)?;
 
-    remove_file(&file)?;
+    fs::remove_file(&file)?;
 
     // The file could be invalid unicode when part of a directory.
     // Ideally we would continue processing files and log the error.
     // As of right now, a non-unicode file name stops the program.
     let new_path = new_path(&file, input_format)?;
-    let mut file = create_file(new_path, output_format)?;
+    let mut file = File::create(format!("{}{}", new_path, output_format))?;
     file.write_all(output_contents.as_bytes())?;
     Ok(())
-}
-
-/// Wrappers around common file system operations.
-pub fn open_file(file: &Path) -> Result<File, X2YError> {
-    match File::open(file) {
-        Ok(f) => Ok(f),
-        Err(e) => Err(X2YError::IO(e)),
-    }
-}
-
-pub fn remove_file(file: &Path) -> Result<(), X2YError> {
-    match fs::remove_file(file) {
-        Ok(()) => Ok(()),
-        Err(e) => Err(X2YError::IO(e)),
-    }
-}
-
-pub fn create_file(file_name: &str, format: Format) -> Result<File, X2YError> {
-    match File::create(format!("{}{}", file_name, format)) {
-        Ok(f) => Ok(f),
-        Err(e) => Err(X2YError::IO(e)),
-    }
 }
