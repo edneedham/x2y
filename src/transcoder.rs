@@ -10,7 +10,7 @@ pub fn transcode(
     input_format: Format,
     output_format: Format,
 ) -> Result<String, X2YError> {
-    let result: Result<String, X2YError> = match (input_format, output_format) {
+    match (input_format, output_format) {
         (Format::Yaml, Format::Json) => yaml_to_json(contents),
         (Format::Yaml, Format::Toml) => yaml_to_toml(contents),
         (Format::Json, Format::Toml) => json_to_toml(contents),
@@ -21,8 +21,7 @@ pub fn transcode(
             "Incompatible input and output formats: {} -> {}",
             input_format, output_format
         ))),
-    };
-    result
+    }
 }
 
 fn yaml_to_json(contents: &str) -> Result<String, X2YError> {
