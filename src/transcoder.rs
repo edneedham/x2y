@@ -33,7 +33,7 @@ fn yaml_to_json(contents: &str) -> Result<String, X2YError> {
         Ok(s) => s,
         Err(e) => return Err(X2YError::Transcode(e.into())),
     };
-    Ok(json_string.to_string())
+    Ok(json_string)
 }
 
 fn yaml_to_toml(contents: &str) -> Result<String, X2YError> {
@@ -45,7 +45,7 @@ fn yaml_to_toml(contents: &str) -> Result<String, X2YError> {
         Ok(s) => s,
         Err(e) => return Err(X2YError::Transcode(e.into())),
     };
-    Ok(toml_string.to_string())
+    Ok(toml_string)
 }
 
 fn json_to_toml(contents: &str) -> Result<String, X2YError> {
@@ -57,7 +57,7 @@ fn json_to_toml(contents: &str) -> Result<String, X2YError> {
         Ok(s) => s,
         Err(e) => return Err(X2YError::Transcode(e.into())),
     };
-    Ok(toml_string.to_string())
+    Ok(toml_string)
 }
 
 fn json_to_yaml(contents: &str) -> Result<String, X2YError> {
@@ -69,7 +69,7 @@ fn json_to_yaml(contents: &str) -> Result<String, X2YError> {
         Ok(s) => s,
         Err(e) => return Err(X2YError::Transcode(e.into())),
     };
-    Ok(yaml_string.to_string())
+    Ok(yaml_string)
 }
 
 fn toml_to_yaml(contents: &str) -> Result<String, X2YError> {
@@ -81,7 +81,7 @@ fn toml_to_yaml(contents: &str) -> Result<String, X2YError> {
         Ok(s) => s,
         Err(e) => return Err(X2YError::Transcode(e.into())),
     };
-    Ok(yaml_string.to_string())
+    Ok(yaml_string)
 }
 
 fn toml_to_json(contents: &str) -> Result<String, X2YError> {
@@ -93,7 +93,7 @@ fn toml_to_json(contents: &str) -> Result<String, X2YError> {
         Ok(s) => s,
         Err(e) => return Err(X2YError::Transcode(e.into())),
     };
-    Ok(json_string.to_string())
+    Ok(json_string)
 }
 
 #[cfg(test)]
