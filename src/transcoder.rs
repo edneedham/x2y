@@ -99,7 +99,7 @@ fn toml_to_json(contents: &str) -> Result<String, X2YError> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_helpers::*;
+    use crate::test_utils::*;
 
     #[test]
     fn json_to_yaml_basic() {

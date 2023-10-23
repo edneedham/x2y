@@ -9,7 +9,7 @@ use tempfile;
 use toml;
 
 extern crate x2y;
-use x2y::test_helpers::Basic;
+use x2y::test_utils::*;
 
 static LOGGER: Lazy<()> = Lazy::new(|| {
     let _ = env_logger::builder().is_test(true).try_init();
