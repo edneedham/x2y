@@ -1,3 +1,7 @@
+![Crates.io](https://img.shields.io/crates/v/x2y)
+![GitHub](https://img.shields.io/github/license/edneedham/x2y)
+![CICD](https://github.com/edneedham/x2y/actions/workflows/cicd.yml/badge.svg)
+
 # x2y
 
 Transcode data-serialization files from x to y.
